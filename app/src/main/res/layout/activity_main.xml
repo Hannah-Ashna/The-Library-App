@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.145" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/MainLoginButton"
         android:layout_width="135dp"
         android:layout_height="60dp"
         android:onClick="loginButton"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.713" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/MainSignUpButton"
         android:layout_width="135dp"
         android:layout_height="66dp"
         android:onClick="signupButton"

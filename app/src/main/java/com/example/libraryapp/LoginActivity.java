@@ -16,14 +16,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -38,34 +38,34 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void signup(String email, String password){
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    public void login(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d("MainActivity", "createUserWithEmail:success");
+                    // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(SignUpActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
 
                     //user has been signed in, use an intent to move to the next activity
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {
-                    // If sign in fails, display a message to the user
-                    Log.w("MainActivity", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(SignUpActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    // If sign in fails, display a message to the user.
+                    Log.w("MainActivity", "signInWithEmail:failure", task.getException());
+                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void signupButtonClicked(View view){
+    public void loginButtonClicked(View view){
         EditText email = findViewById(R.id.editTextTextLoginEmail);
         EditText password = findViewById(R.id.editTextTextLoginPassword);
         String sEmail = email.getText().toString();
         String sPassword = password.getText().toString();
-        signup(sEmail, sPassword);
+        login(sEmail, sPassword);
     }
 }
