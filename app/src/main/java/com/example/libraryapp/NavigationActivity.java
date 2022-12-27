@@ -46,13 +46,14 @@ public class NavigationActivity extends AppCompatActivity {
             if(task.isSuccessful() && task.getResult() != null){
                 String fullName = task.getResult().getString("Full Name");
                 String email = task.getResult().getString("Email");
-                navbarUserName.setText(fullName);
+                String studentID = task.getResult().getString("ID");
+                navbarUserName.setText(fullName + " (" + studentID + ")");
                 navbarEmail.setText(email);
             }else{
                 // Do not Update TEXT for now - Deal with error?
             }
         });
-        
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
