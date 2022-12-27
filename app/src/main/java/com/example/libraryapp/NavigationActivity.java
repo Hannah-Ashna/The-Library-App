@@ -1,8 +1,9 @@
 package com.example.libraryapp;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -15,8 +16,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.libraryapp.databinding.ActivityNavigationBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NavigationActivity extends AppCompatActivity {
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
@@ -32,6 +37,22 @@ public class NavigationActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
+        // Pull user data from Firestore Database
+        View headerView = navigationView.getHeaderView(0);
+        TextView navbarUserName = (TextView) headerView.findViewById(R.id.navbarName);
+        TextView navbarEmail = (TextView)headerView.findViewById(R.id.navbarEmail);
+
+        db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful() && task.getResult() != null){
+                String fullName = task.getResult().getString("Full Name");
+                String email = task.getResult().getString("Email");
+                navbarUserName.setText(fullName);
+                navbarEmail.setText(email);
+            }else{
+                // Do not Update TEXT for now - Deal with error?
+            }
+        });
+        
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

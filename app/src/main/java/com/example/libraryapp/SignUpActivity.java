@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void signup(Map newUserData, String email, String password, String customID){
+    public void signup(Map newUserData, String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
             @Override
@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
 
                     // Add new User to the Firestore Database Collection
-                    db.collection("Users").document(customID).set(newUserData).addOnFailureListener(new OnFailureListener() {
+                    db.collection("Users").document(user.getUid()).set(newUserData).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.w("MainActivity", "Error adding document", e);
@@ -98,6 +98,6 @@ public class SignUpActivity extends AppCompatActivity {
             newUser.put("ID", sStudentID);
             newUser.put("Admin Status", false);
 
-        signup(newUser, sEmail, sPassword, sStudentID);
+        signup(newUser, sEmail, sPassword);
     }
 }
