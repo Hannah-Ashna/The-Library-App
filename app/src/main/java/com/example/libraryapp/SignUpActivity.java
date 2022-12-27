@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
                     db.collection("Users").document(user.getUid()).set(newUserData).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.w("MainActivity", "Error adding document", e);
+                            Log.w("Signup Activity", "Error adding document", e);
                         }
                     });
 
