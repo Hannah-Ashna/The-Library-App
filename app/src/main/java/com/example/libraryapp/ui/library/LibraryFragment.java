@@ -51,11 +51,13 @@ public class LibraryFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_library , container, false);
 
-        // Get Current Books from Firestore DB
+        // Initialise these arraylists
         title = new ArrayList<>();
         author = new ArrayList<>();
         summary = new ArrayList<>();
+        available = new ArrayList<>();
 
+        // Get Current Books from DB
         db.collection("Books").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -65,13 +67,14 @@ public class LibraryFragment extends Fragment {
                         title.add(document.get("Title").toString());
                         author.add(document.get("Author").toString());
                         summary.add(document.get("Summary").toString());
+                        available.add(Boolean.valueOf(document.get("Available").toString()));
                     }
                 } else {
                     Log.d("Library Fragment", "Error getting documents: ", task.getException());
                 }
 
                 listView = (ListView)view.findViewById(R.id.bookList);
-                listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary));
+                listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary, available));
             }
         });
 

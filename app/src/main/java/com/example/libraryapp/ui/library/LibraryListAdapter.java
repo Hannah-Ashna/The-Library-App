@@ -18,13 +18,15 @@ public class LibraryListAdapter extends BaseAdapter {
     private final List<String> title;
     private final List<String> author;
     private final List<String> summary;
+    private final List<Boolean> available;
 
-    public LibraryListAdapter(Context context, List<String> title, List<String> author, List<String> summary){
+    public LibraryListAdapter(Context context, List<String> title, List<String> author, List<String> summary, List<Boolean> available){
         //super(context, R.layout.single_list_app_item, utilsArrayList);
         this.context = context;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.available = available;
     }
 
     @Override
@@ -64,11 +66,17 @@ public class LibraryListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
-        Log.d("test", title.get(position));
 
         viewHolder.txtName.setText(title.get(position) + " - " + author.get(position));
         viewHolder.txtVersion.setText(summary.get(position));
-        viewHolder.icon.setImageResource(R.drawable.ic_list_book);
+
+        // Display Icon based on Availability
+        if (available.get(position)){
+            viewHolder.icon.setImageResource(R.drawable.ic_list_book_available);
+        } else {
+            viewHolder.icon.setImageResource(R.drawable.ic_list_book_taken);
+        }
+
         return convertView;
     }
 
