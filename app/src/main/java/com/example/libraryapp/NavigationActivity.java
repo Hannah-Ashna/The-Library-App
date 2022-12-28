@@ -1,9 +1,12 @@
 package com.example.libraryapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -15,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.libraryapp.databinding.ActivityNavigationBinding;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -41,6 +45,7 @@ public class NavigationActivity extends AppCompatActivity {
         TextView navbarUserName = (TextView) headerView.findViewById(R.id.navbarName);
         TextView navbarEmail = (TextView)headerView.findViewById(R.id.navbarEmail);
 
+        // Display it via the Nav Header
         db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
             if(task.isSuccessful() && task.getResult() != null){
                 String fullName = task.getResult().getString("Full Name");
@@ -68,6 +73,8 @@ public class NavigationActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+
+
         return true;
     }
 
@@ -76,5 +83,14 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void adminButtonClicked(MenuItem item){
+        final View menuItemView = findViewById(R.id.action_admin);
+        Snackbar adminSnackBar = Snackbar.make(menuItemView, "Scanning for Admin NFC Card", Snackbar.LENGTH_INDEFINITE);
+        adminSnackBar.show();
+
+        // Dismiss snackbar once connection succeeded or failed
+        // NFC Scanning Code goes hereeee!!
     }
 }
