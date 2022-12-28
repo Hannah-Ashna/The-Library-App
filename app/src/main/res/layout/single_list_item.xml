@@ -3,32 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp">
+
     <ImageView
         android:id="@+id/appIconIV"
         android:src="@drawable/pixel_dino_logo"
         android:layout_width="60dp"
         android:layout_height="60dp" />
+
     <TextView
         android:id="@+id/aTitleTxt"
-        android:text="Android Name"
-        android:textSize="20sp"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/appIconIV"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/appIconIV"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
+        android:layout_toRightOf="@+id/appIconIV"
+        android:maxLines="10"
+        android:text="Android Name"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/aSummaryTxt"
-        android:text="Android Version"
-        android:textSize="14sp"
-        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/aTitleTxt"
+        android:layout_alignStart="@+id/aTitleTxt"
         android:layout_alignLeft="@+id/aTitleTxt"
-        android:layout_alignStart="@+id/aTitleTxt" />
+        android:maxLines="20"
+        android:text="Android Version"
+        android:textSize="12sp" />
 </RelativeLayout>
