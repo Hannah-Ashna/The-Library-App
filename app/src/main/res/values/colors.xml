@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="devsoc">#FF102542</color>
+    <color name="devsoc_100">#102542</color>
+    <color name="devsoc_200">#0F455B</color>
+    <color name="devsoc_300">#0E6574</color>
+    <color name="devsoc_400">#0CA4A5</color>
+    <color name="devsoc_500">#49BBBC</color>
+    <color name="devsoc_600">#86D2D2</color>
+    <color name="devsoc_700">#C3E9E9</color>
+    <color name="devsoc_800">#E1F4F4</color>
+    <color name="devsoc_900">#F0FAFA</color>
 </resources>
