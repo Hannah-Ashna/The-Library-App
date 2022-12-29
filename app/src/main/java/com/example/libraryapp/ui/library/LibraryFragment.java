@@ -53,7 +53,7 @@ public class LibraryFragment extends Fragment {
         available = new ArrayList<>();
 
         // Get Current Books from DB
-        db.collection("Books").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Books").orderBy("Title").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
