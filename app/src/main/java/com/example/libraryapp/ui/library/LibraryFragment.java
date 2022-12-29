@@ -32,11 +32,6 @@ public class LibraryFragment extends Fragment {
 
     private FragmentLibraryBinding binding;
 
-    /*String[] version = {"Android Alpha", "Android Cupcake", "Android Donut", "Android Eclair",
-                        "Android Froyo", "Android Gingerbread", "Android Gingerbread",
-                        "Android Gingerbread","Android Honeycomb"};
-    String[] versionNumber = {"1.0", "1.1", "1.5", "1.6", "2.0", "2.2", "2.2", "2.2", "2.3"};*/
-
     List<String> title;
     List<String> author;
     List<String> summary;
@@ -61,7 +56,6 @@ public class LibraryFragment extends Fragment {
         db.collection("Books").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Log.d("Library Fragment", "ping pong ");
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         title.add(document.get("Title").toString());
@@ -70,7 +64,7 @@ public class LibraryFragment extends Fragment {
                         available.add(Boolean.valueOf(document.get("Available").toString()));
                     }
                 } else {
-                    Log.d("Library Fragment", "Error getting documents: ", task.getException());
+                    Log.d("[Library Fragment]", "Error getting documents: ", task.getException());
                 }
 
                 listView = (ListView)view.findViewById(R.id.bookList);
