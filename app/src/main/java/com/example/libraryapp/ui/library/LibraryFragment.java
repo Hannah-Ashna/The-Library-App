@@ -18,6 +18,9 @@ import com.example.libraryapp.R;
 import com.example.libraryapp.databinding.FragmentLibraryBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -40,9 +43,13 @@ public class LibraryFragment extends Fragment {
     ListView lView;
     LibraryListAdapter lAdapter;
     private ListView listView;
+
+    private FirebaseAuth mAuth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mAuth = FirebaseAuth.getInstance();
 
         View view= inflater.inflate(R.layout.fragment_library , container, false);
 
@@ -52,25 +59,35 @@ public class LibraryFragment extends Fragment {
         summary = new ArrayList<>();
         available = new ArrayList<>();
 
-        // Get Current Books from DB
-        db.collection("Books").orderBy("Title").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        title.add(document.get("Title").toString());
-                        author.add(document.get("Author").toString());
-                        summary.add(document.get("Summary").toString());
-                        available.add(Boolean.valueOf(document.get("Available").toString()));
-                    }
-                } else {
-                    Log.d("[Library Fragment]", "Error getting documents: ", task.getException());
-                }
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            //User is signed in use an intent to move to another activity
+        }
 
-                listView = (ListView)view.findViewById(R.id.bookList);
-                listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary, available));
-            }
-        });
+        // Get Current Books from DB
+        try {
+            db.collection("Books").orderBy("Title").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            title.add(document.get("Title").toString());
+                            author.add(document.get("Author").toString());
+                            summary.add(document.get("Summary").toString());
+                            available.add(Boolean.valueOf(document.get("Available").toString()));
+                        }
+                    } else {
+                        Log.d("[Library Fragment]", "Error getting documents: ", task.getException());
+                    }
+
+                    listView = (ListView)view.findViewById(R.id.bookList);
+                    listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary, available));
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Database Connection Failed - " + e, Toast.LENGTH_LONG).show();
+            Log.d("Backpack:", String.valueOf(e));
+        }
 
         return view;
     }

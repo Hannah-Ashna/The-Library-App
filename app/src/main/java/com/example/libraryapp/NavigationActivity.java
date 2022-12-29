@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.libraryapp.databinding.ActivityNavigationBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -28,10 +29,12 @@ public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
 
         binding = ActivityNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -45,18 +48,26 @@ public class NavigationActivity extends AppCompatActivity {
         TextView navbarUserName = (TextView) headerView.findViewById(R.id.navbarName);
         TextView navbarEmail = (TextView)headerView.findViewById(R.id.navbarEmail);
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         // Display it via the Nav Header
-        db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful() && task.getResult() != null){
-                String fullName = task.getResult().getString("Full Name");
-                String email = task.getResult().getString("Email");
-                String studentID = task.getResult().getString("ID");
-                navbarUserName.setText(fullName + " (" + studentID + ")");
-                navbarEmail.setText(email);
-            }else{
-                // Do not Update TEXT for now - Deal with error?
-            }
-        });
+        try {
+            db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful() && task.getResult() != null){
+                    String fullName = task.getResult().getString("Full Name");
+                    String email = task.getResult().getString("Email");
+                    String studentID = task.getResult().getString("ID");
+                    navbarUserName.setText(fullName + " (" + studentID + ")");
+                    navbarEmail.setText(email);
+                }else{
+                    navbarUserName.setText("The DevSoc Library");
+                    navbarEmail.setText("");
+                }
+            });
+        } catch (Exception e) {
+            navbarUserName.setText("The DevSoc Library");
+            navbarEmail.setText("");
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -73,8 +84,6 @@ public class NavigationActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
-
-
         return true;
     }
 
@@ -87,7 +96,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     public void adminButtonClicked(MenuItem item){
         final View menuItemView = findViewById(R.id.action_admin);
-        Snackbar adminSnackBar = Snackbar.make(menuItemView, "Scanning for Admin NFC Card", Snackbar.LENGTH_INDEFINITE);
+        Snackbar adminSnackBar = Snackbar.make(menuItemView, "Scanning for Admin NFC Card", Snackbar.LENGTH_LONG);
         adminSnackBar.show();
 
         // Dismiss snackbar once connection succeeded or failed
