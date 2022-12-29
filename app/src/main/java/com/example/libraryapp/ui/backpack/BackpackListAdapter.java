@@ -47,12 +47,12 @@ public class BackpackListAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.single_list_item,
+            convertView = inflater.inflate(R.layout.single_loan_item,
                     parent, false);
-            viewHolder.txtName = (TextView)
-                    convertView.findViewById(R.id.aTitleTxt);
-            viewHolder.txtVersion = (TextView)
-                    convertView.findViewById(R.id.aSummaryTxt);
+            viewHolder.txtTitle = (TextView)
+                    convertView.findViewById(R.id.aLoanTitleTxt);
+            viewHolder.txtDuration = (TextView)
+                    convertView.findViewById(R.id.aLoanDurationTxt);
             viewHolder.icon = (ImageView)
                     convertView.findViewById(R.id.appIconIV);
             result=convertView;
@@ -62,16 +62,23 @@ public class BackpackListAdapter extends BaseAdapter {
             result=convertView;
         }
 
-        viewHolder.txtName.setText(title.get(position) + " - " + author.get(position));
-        viewHolder.txtVersion.setText("Loan Duration: " + duration.get(position) + " days");
-        viewHolder.icon.setImageResource(R.drawable.ic_list_book);
+        viewHolder.txtTitle.setText(title.get(position) + " - " + author.get(position));
+        viewHolder.txtDuration.setText("Loan Duration: \n" + duration.get(position) + " days");
+        viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
+
+        // Display Icon based on Loan Duration Remaining
+        if (duration.get(position) > 0){
+            viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
+        } else {
+            viewHolder.icon.setImageResource(R.drawable.ic_loan_clock_due);
+        }
 
         return convertView;
     }
 
     private static class ViewHolder {
-        TextView txtName;
-        TextView txtVersion;
+        TextView txtTitle;
+        TextView txtDuration;
         ImageView icon;
     }
 }

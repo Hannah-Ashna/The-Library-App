@@ -51,7 +51,7 @@ public class BackpackFragment extends Fragment {
 
         // Get Current Loaned Books from DB
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        db.collection("Books").whereEqualTo("Available", false).whereEqualTo("User", user.getUid().toString()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Books").whereEqualTo("Available", false).whereEqualTo("User", user.getUid().toString()).orderBy("Duration").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
