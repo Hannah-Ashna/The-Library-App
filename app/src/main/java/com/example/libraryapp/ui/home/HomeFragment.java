@@ -33,8 +33,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        
+        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -48,14 +48,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         activateNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AuthUI.getInstance().signOut(getActivity()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
-                        activateNFC.startAnimation(animation);
-                        Snackbar scanSnackBar = Snackbar.make(view, "Scanning for Book NFC", Snackbar.LENGTH_LONG);
-                        scanSnackBar.show();
-                    }
-                });
+                Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
+                activateNFC.startAnimation(animation);
+                Snackbar scanSnackBar = Snackbar.make(view, "Scanning for Book NFC", Snackbar.LENGTH_LONG);
+                scanSnackBar.show();
+
+                // Do NFC Scanning Logic then stop animation upon success or failure
             }
         });
 

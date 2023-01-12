@@ -50,4 +50,8 @@
         </activity>
     </application>
 
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-sdk android:minSdkVersion="10"/>
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
 </manifest>
