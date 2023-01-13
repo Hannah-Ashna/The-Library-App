@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     return;
                 }
 
-                if (NFCAdapter.isEnabled()){
+                if (!NFCAdapter.isEnabled()){
                     animation.reset();
                     scanSnackBar.dismiss();
                     Toast.makeText(getActivity(), "NFC is disabled", Toast.LENGTH_LONG).show();
