@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     // NFC Variables
     public static final String TAG = "DevSocBook";
     private NfcAdapter NFCAdapter;
+    Snackbar scanSnackBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,28 +43,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         activateNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
-                activateNFC.startAnimation(animation);
-                Snackbar scanSnackBar = Snackbar.make(view, "Scanning for Book NFC", Snackbar.LENGTH_INDEFINITE);
-                scanSnackBar.show();
-
                 // Do NFC Scanning Logic then stop animation upon success or failure
                 if (NFCAdapter == null){
                     // Do not proceed, NFC is a necessary permission for this feature
-                    scanSnackBar.dismiss();
-                    Toast.makeText(getActivity(), "This device does not support NFC", Toast.LENGTH_LONG).show();
-                    animation.reset();
+                    scanSnackBar = Snackbar.make(view, "This device does not support NFC scanning", Snackbar.LENGTH_LONG);
+                    scanSnackBar.show();
                     return;
                 }
 
                 if (!NFCAdapter.isEnabled()){
-                    animation.reset();
-                    scanSnackBar.dismiss();
-                    Toast.makeText(getActivity(), "NFC is disabled", Toast.LENGTH_LONG).show();
+                    scanSnackBar = Snackbar.make(view, "NFC currently disabled", Snackbar.LENGTH_LONG);
+                    scanSnackBar.show();
                 } else {
-                    animation.cancel();
-                    scanSnackBar.dismiss();
-                    Toast.makeText(getActivity(), "NFC is enabled!", Toast.LENGTH_LONG).show();
+                    Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
+                    activateNFC.startAnimation(animation);
+                    scanSnackBar = Snackbar.make(view, "Scanning for Book NFC", Snackbar.LENGTH_INDEFINITE);
+                    scanSnackBar.show();
                 }
 
                 handleIntent(getActivity().getIntent());
