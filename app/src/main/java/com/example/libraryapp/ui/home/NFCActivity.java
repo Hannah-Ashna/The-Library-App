@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class NFCActivity extends AppCompatActivity {
@@ -51,7 +52,6 @@ public class NFCActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    Map<String,Object> bookData;
     boolean currentBookStatus;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -119,20 +119,32 @@ public class NFCActivity extends AppCompatActivity {
         }
 
         nfc_content.setText(text);
-        //updateBooksDatabase(text);
+        updateBooksDatabase(text);
     }
 
     private void updateBooksDatabase(String bookID) {
         if(currentUser != null){
+
             // Check the current availability status of the book
             db.collection("Books").document(bookID).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
                     currentBookStatus = task.getResult().getBoolean("Available");
 
-                    bookData.put("Available" , !currentBookStatus);
+                    Map<String, Object> bookData = new HashMap<>();
+
+                    if (currentBookStatus) {
+                        bookData.put("Available" , false);
+                        bookData.put("User", currentUser.getUid());
+                        bookData.put("Duration", 10);
+                    } else {
+                        bookData.put("Available" , true);
+                        bookData.put("User", "");
+                        bookData.put("Duration", 0);
+                    }
+
 
                     // Set the new availability status of the book
-                    db.collection("Books").document(bookID).set(bookData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    db.collection("Books").document(bookID).update(bookData).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d("NFC Activity: ", "Update successful!");
@@ -148,6 +160,11 @@ public class NFCActivity extends AppCompatActivity {
                 }
             });
         }
+
+        Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
 
