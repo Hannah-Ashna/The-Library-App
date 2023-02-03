@@ -1,5 +1,6 @@
 package com.example.libraryapp.ui.home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
@@ -12,11 +13,24 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.libraryapp.NavigationActivity;
 import com.example.libraryapp.R;
+import com.example.libraryapp.ui.library.LibraryListAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Map;
 
 public class NFCActivity extends AppCompatActivity {
 
@@ -29,9 +43,17 @@ public class NFCActivity extends AppCompatActivity {
 
     // NFC Messages
     public static final String Error_Detected = "No NFC Tag Detected";
+    public static final String No_NFC_Support = "Warning: This device does not support NFCs";
 
     // NFC UI Items
     TextView        nfc_content;
+
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    Map<String,Object> bookData;
+    boolean currentBookStatus;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +63,12 @@ public class NFCActivity extends AppCompatActivity {
         nfc_content     = (TextView) findViewById(R.id.nfc_contents);
         context         = this;
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         NFCAdapter = NfcAdapter.getDefaultAdapter(this);
         if (NFCAdapter == null) {
-            Toast.makeText(this, "This Device Does Not Support NFCs", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, No_NFC_Support, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -69,7 +94,6 @@ public class NFCActivity extends AppCompatActivity {
             NdefMessage[] msgs = null;
 
             if (rawMsgs != null) {
-                Toast.makeText(this, "BOOK FOUND - READING INTENT NOW", Toast.LENGTH_LONG).show();
                 msgs = new NdefMessage[rawMsgs.length];
                 for (int i = 0; i < rawMsgs.length; i++){
                     msgs[i] = (NdefMessage) rawMsgs[i];
@@ -94,9 +118,38 @@ public class NFCActivity extends AppCompatActivity {
             Log.e("Unsupported Encoding:", e.toString());
         }
 
-        nfc_content.setText("NFC Content: " + text);
-        Toast.makeText(this, "BOOK FOUND - RETURNING NOW", Toast.LENGTH_LONG).show();
+        nfc_content.setText(text);
+        //updateBooksDatabase(text);
     }
+
+    private void updateBooksDatabase(String bookID) {
+        if(currentUser != null){
+            // Check the current availability status of the book
+            db.collection("Books").document(bookID).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    currentBookStatus = task.getResult().getBoolean("Available");
+
+                    bookData.put("Available" , !currentBookStatus);
+
+                    // Set the new availability status of the book
+                    db.collection("Books").document(bookID).set(bookData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d("NFC Activity: ", "Update successful!");
+                        }
+                    }) .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("NFC Activity:", String.valueOf(e));
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Error: Book does not exist in our records", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
 
     @Override
     protected void onNewIntent (Intent intent){
