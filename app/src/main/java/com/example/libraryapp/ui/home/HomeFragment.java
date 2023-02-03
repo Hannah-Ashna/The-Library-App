@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     // REMOVE SOON?
     TextView edit_message;
     TextView nfc_contents;
-    Button nfc_button;
 
     // Other Variables
     Snackbar scanSnackBar;
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                              ViewGroup container, Bundle savedInstanceState) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        NFCAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -74,7 +72,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         // --- TEMP STUFF
         edit_message = (TextView)root.findViewById(R.id.edit_message);
         nfc_contents = (TextView)root.findViewById(R.id.nfc_Contents);
-        nfc_button = (Button)root.findViewById(R.id.button2);
         context = this.getContext();
         // --- TEMP STUFF
 
@@ -87,7 +84,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     if (NFCTag == null){
                         Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
                     } else {
-                        write("PlainText |" + edit_message.getText().toString(), NFCTag);
+                        //write("PlainText |" + edit_message.getText().toString(), NFCTag);
+                        write("HELLO HELLO HELLO", NFCTag);
                         Toast.makeText(context, Write_Success, Toast.LENGTH_LONG).show();
                     }
                 } catch (IOException e){
@@ -100,36 +98,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+        NFCAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
         if (NFCAdapter == null){
             // Do not proceed, NFC is a necessary permission for this feature
-            //scanSnackBar = Snackbar.make(view, "This device does not support NFC scanning", Snackbar.LENGTH_LONG);
-            //scanSnackBar.show();
-            Log.e("Hmmm","NULL");
-        }
-
-        if (!NFCAdapter.isEnabled()){
-            //scanSnackBar = Snackbar.make(view, "NFC currently disabled", Snackbar.LENGTH_LONG);
-            //scanSnackBar.show();
+            Log.e("NFC Adapter Status: ","NULL");
+            Toast.makeText(context, "NFC Adapter Status: NULL", Toast.LENGTH_LONG).show();
         } else {
-            Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
-            activateNFC.startAnimation(animation);
-            //scanSnackBar = Snackbar.make(view, "Scanning for Book NFC", Snackbar.LENGTH_INDEFINITE);
-            //scanSnackBar.show();
+            Toast.makeText(context, "NFC Adapter Status: NOT NULL", Toast.LENGTH_LONG).show();
+            //Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.blink);
+            //activateNFC.startAnimation(animation);
 
             readFromIntent(getActivity().getIntent());
-            pendingIntent.getActivity(getActivity(), 0, new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),0);
+            pendingIntent = PendingIntent.getActivity(getActivity(), 0, new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),0);
             IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
             tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
             writingTagFilters = new IntentFilter[] {tagDetected};
         }
-
 
         return root;
     }
 
     private void readFromIntent (Intent intent){
         String action = intent.getAction();
+        Toast.makeText(context, "NFC Adapter Status: " + action, Toast.LENGTH_LONG).show();
         if (NFCAdapter.ACTION_TAG_DISCOVERED.equals(action)
             || NFCAdapter.ACTION_TECH_DISCOVERED.equals(action)
             || NFCAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
@@ -190,6 +182,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
 
         return recordNFC;
+    }
+
+    @Override
+    protected void onNewIntent (Intent intent){
+        super.onNewIntent(intent);
+        setIntent(intent);
+        readFromIntent(intent);
+
+        if(NFCAdapter.ACTION_TAG_DISCOVERED.equals((intent.getAction()))){
+            NFCTag = intent.getParcelableExtra(NFCAdapter.EXTRA_TAG);
+        }
     }
 
     @Override
