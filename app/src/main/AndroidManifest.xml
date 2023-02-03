@@ -2,9 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.NFC"/>
-    <uses-sdk android:minSdkVersion="10" tools:ignore="GradleOverrides" />
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <uses-sdk
+        android:minSdkVersion="10"
+        tools:ignore="GradleOverrides" />
+
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -15,19 +21,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LibraryApp"
-        tools:targetApi="31"
-        tools:ignore="RtlEnabled">
+        tools:ignore="RtlEnabled"
+        tools:targetApi="31">
         <activity
-            android:name=".NavigationActivity"
-            android:exported="false"
-            android:label="@string/title_activity_navigation"
-            android:theme="@style/Theme.LibraryApp.NoActionBar">
+            android:name=".ui.home.NFCActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
-
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".NavigationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/Theme.LibraryApp.NoActionBar">
             <meta-data
                 android:name="android.nfc.action.TAG_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
@@ -63,7 +75,5 @@
                 android:value="" />
         </activity>
     </application>
-
-
 
 </manifest>
