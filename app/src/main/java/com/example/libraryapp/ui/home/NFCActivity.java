@@ -117,7 +117,7 @@ public class NFCActivity extends AppCompatActivity {
         }
 
         // Check what kind of TAG this is
-        if (text == "Admin") {
+        if (text.contains("Admin")) {
             updateUserDatabase();
         } else {
             updateBooksDatabase(text);
@@ -129,9 +129,14 @@ public class NFCActivity extends AppCompatActivity {
             // Check the current admin status of the user
             db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
-                    Boolean newAdminStatus = !task.getResult().getBoolean("Admin Status");
                     Map<String, Object> userData = new HashMap<>();
-                    userData.put("Admin Status", newAdminStatus);
+                    Boolean adminStatus = task.getResult().getBoolean("Admin Status");
+
+                    if (adminStatus) {
+                        userData.put("Admin Status", false);
+                    } else {
+                        userData.put("Admin Status", true);
+                    }
 
                     // Set the new admin status of the user
                     db.collection("Users").document(currentUser.getUid()).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
