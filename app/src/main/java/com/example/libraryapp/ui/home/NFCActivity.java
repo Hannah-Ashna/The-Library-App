@@ -171,7 +171,7 @@ public class NFCActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    
+
     private void updateBooksDatabase(String bookID) {
         if(currentUser != null) {
 

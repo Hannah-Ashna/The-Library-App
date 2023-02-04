@@ -65,17 +65,19 @@ public class BackpackListAdapter extends BaseAdapter {
             result=convertView;
         }
 
-        viewHolder.txtTitle.setText(title.get(position) + " - " + author.get(position));
+        viewHolder.txtTitle.setText(title.get(position));
         viewHolder.txtDuration.setText("Due for Return: \n" + duration.get(position));
         viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
 
         // Display Icon based on Loan Duration Remaining
-        viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
-        /*if (duration.get(position) > 0){
+
+        Date currentDate = new Date();
+
+        if (currentDate.before(duration.get(position))){
             viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
         } else {
             viewHolder.icon.setImageResource(R.drawable.ic_loan_clock_due);
-        }*/
+        }
 
         return convertView;
     }

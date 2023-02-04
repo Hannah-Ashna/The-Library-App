@@ -12,32 +12,32 @@
 
     <TextView
         android:id="@+id/aLoanTitleTxt"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/appIconIV"
         android:layout_toRightOf="@+id/appIconIV"
-        android:maxLines="10"
         android:text="Android Name"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/aLoanDurationTxt"
-        android:layout_width="130dp"
+        android:layout_width="323dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="204dp"
-        android:layout_marginTop="1dp"
-        android:layout_toEndOf="@+id/aLoanTitleTxt"
+        android:layout_below="@+id/aLoanTitleTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/appIconIV"
         android:layout_toRightOf="@+id/appIconIV"
         android:maxLines="10"
         android:text="Android Name"
         android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
