@@ -121,7 +121,6 @@ public class NavigationActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), HiddenAdminActivity.class);
                         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-                        finish();
                     } else {
                         adminSnackbar = Snackbar.make(menuItemView, "I wonder what this button does?", Snackbar.LENGTH_LONG);
                         adminSnackbar.show();
