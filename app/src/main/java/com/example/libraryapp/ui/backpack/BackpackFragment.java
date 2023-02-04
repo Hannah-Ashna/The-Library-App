@@ -20,6 +20,7 @@ import com.example.libraryapp.ui.library.LibraryListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +28,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class BackpackFragment extends Fragment {
@@ -35,7 +38,7 @@ public class BackpackFragment extends Fragment {
 
     List<String> title;
     List<String> author;
-    List<Integer> duration;
+    List<Date> duration;
 
     ListView lView;
     BackpackListAdapter lAdapter;
@@ -68,7 +71,9 @@ public class BackpackFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 title.add(document.get("Title").toString());
                                 author.add(document.get("Author").toString());
-                                duration.add(Integer.valueOf(document.get("Duration").toString()));
+
+                                Timestamp testStamp = document.getTimestamp("Duration");
+                                duration.add(testStamp.toDate());
                             }
                         } else {
                             Log.d("[Backpack Fragment]", "Error getting documents: ", task.getException());

@@ -26,14 +26,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.text.SimpleDateFormat;
 
 public class NFCActivity extends AppCompatActivity {
 
@@ -167,6 +171,7 @@ public class NFCActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    
     private void updateBooksDatabase(String bookID) {
         if(currentUser != null) {
 
@@ -176,15 +181,21 @@ public class NFCActivity extends AppCompatActivity {
                     currentBookStatus = task.getResult().getBoolean("Available");
 
                     Map<String, Object> bookData = new HashMap<>();
+                    Calendar cal = Calendar.getInstance();
 
                     if (currentBookStatus) {
+                        cal.add(Calendar.DAY_OF_MONTH, 10);
+                        Date newDate = cal.getTime();
+
                         bookData.put("Available" , false);
                         bookData.put("User", currentUser.getUid());
-                        bookData.put("Duration", 10);
+                        bookData.put("Duration", new Timestamp(newDate));
                     } else {
+                        Date newDate = cal.getTime();
+
                         bookData.put("Available" , true);
                         bookData.put("User", "");
-                        bookData.put("Duration", 0);
+                        bookData.put("Duration", new Timestamp(newDate));
                     }
 
 
@@ -193,7 +204,7 @@ public class NFCActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d("NFC Activity: ", "Update successful!");
-                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your backpack has been update", Snackbar.LENGTH_LONG);
+                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your backpack has been updated", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
                     }) .addOnFailureListener(new OnFailureListener() {

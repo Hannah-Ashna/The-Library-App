@@ -8,15 +8,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.libraryapp.R;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class BackpackListAdapter extends BaseAdapter {
     Context context;
     private final List<String> title;
     private final List<String> author;
-    private final List<Integer> duration;
+    private final List<Date> duration;
 
-    public BackpackListAdapter(Context context, List<String> title, List<String> author, List<Integer> duration){
+    public BackpackListAdapter(Context context, List<String> title, List<String> author, List<Date> duration){
         //super(context, R.layout.single_list_app_item, utilsArrayList);
         this.context = context;
         this.title = title;
@@ -63,15 +66,16 @@ public class BackpackListAdapter extends BaseAdapter {
         }
 
         viewHolder.txtTitle.setText(title.get(position) + " - " + author.get(position));
-        viewHolder.txtDuration.setText("Loan Duration: \n" + duration.get(position) + " days");
+        viewHolder.txtDuration.setText("Due for Return: \n" + duration.get(position));
         viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
 
         // Display Icon based on Loan Duration Remaining
-        if (duration.get(position) > 0){
+        viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
+        /*if (duration.get(position) > 0){
             viewHolder.icon.setImageResource(R.drawable.ic_loan_clock);
         } else {
             viewHolder.icon.setImageResource(R.drawable.ic_loan_clock_due);
-        }
+        }*/
 
         return convertView;
     }

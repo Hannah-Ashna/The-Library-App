@@ -24,12 +24,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -189,7 +191,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
         newBook.put("Title", addBookTitle.getText().toString());
         newBook.put("Summary", addBookSummary.getText().toString());
         newBook.put("Available", true);
-        newBook.put("Duration", 0);
+        newBook.put("Duration", new Timestamp(new Date()));
         newBook.put("User", "");
 
         if (currentUser != null) {
