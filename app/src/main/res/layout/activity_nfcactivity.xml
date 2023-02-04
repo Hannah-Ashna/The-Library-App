@@ -7,30 +7,6 @@
     tools:context=".ui.home.NFCActivity">
 
     <TextView
-        android:id="@+id/nfc_contents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searching_progress"
-        app:layout_constraintVertical_bias="0.097" />
-
-    <ProgressBar
-        android:id="@+id/searching_progress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="186dp"
-        android:layout_height="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nfcTitleText"
-        app:layout_constraintVertical_bias="0.032" />
-
-    <TextView
         android:id="@+id/nfcTitleText"
         android:layout_width="271dp"
         android:layout_height="38dp"
@@ -42,6 +18,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintVertical_bias="0.212" />
+
+    <ProgressBar
+        android:id="@+id/searching_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="186dp"
+        android:layout_height="208dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nfcTitleText"
+        app:layout_constraintVertical_bias="0.036" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

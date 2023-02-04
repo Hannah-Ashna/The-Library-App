@@ -46,9 +46,6 @@ public class NFCActivity extends AppCompatActivity {
     public static final String Error_Detected = "No NFC Tag Detected";
     public static final String No_NFC_Support = "Warning: This device does not support NFCs";
 
-    // NFC UI Items
-    TextView        nfc_content;
-
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -60,7 +57,6 @@ public class NFCActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfcactivity);
 
-        nfc_content     = (TextView) findViewById(R.id.nfc_contents);
         context         = this;
 
         mAuth = FirebaseAuth.getInstance();
@@ -118,7 +114,6 @@ public class NFCActivity extends AppCompatActivity {
             Log.e("Unsupported Encoding:", e.toString());
         }
 
-        nfc_content.setText(text);
         updateBooksDatabase(text);
     }
 
