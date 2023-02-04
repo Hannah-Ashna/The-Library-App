@@ -44,6 +44,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     // Other Variables
     Snackbar scanSnackBar;
+    NfcAdapter NFCAdapter;
+    public static final String No_NFC_Support = "Warning: This device does not support NFCs";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,9 +60,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         activateNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), NFCActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                NFCAdapter = NfcAdapter.getDefaultAdapter(getActivity());
+
+                if (NFCAdapter != null) {
+                    Intent intent = new Intent(getContext(), NFCActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    scanSnackBar = Snackbar.make(view, No_NFC_Support, Snackbar.LENGTH_LONG);
+                    scanSnackBar.show();
+                }
             }
         });
 
