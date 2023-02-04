@@ -43,7 +43,6 @@ public class NFCActivity extends AppCompatActivity {
     Context         context;
 
     // NFC Messages
-    public static final String Error_Detected = "No NFC Tag Detected";
     public static final String No_NFC_Support = "Warning: This device does not support NFCs";
 
     // Firebase
@@ -57,7 +56,7 @@ public class NFCActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfcactivity);
 
-        context         = this;
+        context = this;
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
