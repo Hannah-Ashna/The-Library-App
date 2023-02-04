@@ -1,13 +1,22 @@
 package com.example.libraryapp.ui.library;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.libraryapp.HiddenAdminActivity;
 import com.example.libraryapp.R;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 
 public class LibraryListAdapter extends BaseAdapter {
@@ -15,15 +24,25 @@ public class LibraryListAdapter extends BaseAdapter {
     private final List<String> title;
     private final List<String> author;
     private final List<String> summary;
+    private final List<String> user;
     private final List<Boolean> available;
 
-    public LibraryListAdapter(Context context, List<String> title, List<String> author, List<String> summary, List<Boolean> available){
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    public LibraryListAdapter(Context context, List<String> title, List<String> author, List<String> summary, List<String> user, List<Boolean> available){
         //super(context, R.layout.single_list_app_item, utilsArrayList);
         this.context = context;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.user = user;
         this.available = available;
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
     }
 
     @Override
@@ -64,8 +83,25 @@ public class LibraryListAdapter extends BaseAdapter {
             result=convertView;
         }
 
-        viewHolder.txtName.setText(title.get(position) + " - " + author.get(position));
-        viewHolder.txtVersion.setText(summary.get(position));
+        // Check if User has access to Admin View
+        // Open special Activity for ADMINS
+        if(currentUser != null){
+            // Check the current admin status of the user
+            db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    if (task.getResult().getBoolean("Admin Status")){
+                        viewHolder.txtName.setText(title.get(position) + "\n\nAuthor: " + author.get(position) + "\nUser: " +task.getResult().getString("ID"));
+                        viewHolder.txtVersion.setText(summary.get(position));
+                    } else {
+                        viewHolder.txtName.setText(title.get(position) + "\n\nAuthor: " + author.get(position));
+                        viewHolder.txtVersion.setText(summary.get(position));
+                    }
+                } else {
+                    viewHolder.txtName.setText(title.get(position) + "\n\nAuthor: " + author.get(position));
+                    viewHolder.txtVersion.setText(summary.get(position));
+                }
+            });
+        }
 
         // Display Icon based on Availability
         if (available.get(position)){

@@ -38,6 +38,7 @@ public class LibraryFragment extends Fragment {
     List<String> title;
     List<String> author;
     List<String> summary;
+    List<String> user;
     List<Boolean> available;
 
     ListView lView;
@@ -58,6 +59,7 @@ public class LibraryFragment extends Fragment {
         author = new ArrayList<>();
         summary = new ArrayList<>();
         available = new ArrayList<>();
+        user = new ArrayList<>();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
@@ -74,6 +76,7 @@ public class LibraryFragment extends Fragment {
                             title.add(document.get("Title").toString());
                             author.add(document.get("Author").toString());
                             summary.add(document.get("Summary").toString());
+                            user.add(document.get("User").toString());
                             available.add(Boolean.valueOf(document.get("Available").toString()));
                         }
                     } else {
@@ -81,7 +84,7 @@ public class LibraryFragment extends Fragment {
                     }
 
                     listView = (ListView)view.findViewById(R.id.bookList);
-                    listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary, available));
+                    listView.setAdapter(new LibraryListAdapter(getActivity(), title, author, summary, user, available));
                 }
             });
         } catch (Exception e) {
