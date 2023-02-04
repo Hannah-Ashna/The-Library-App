@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.libraryapp.HiddenAdminActivity;
 import com.example.libraryapp.NavigationActivity;
 import com.example.libraryapp.R;
 import com.example.libraryapp.ui.library.LibraryListAdapter;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,6 +50,7 @@ public class NFCActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private Snackbar snackbar;
     boolean currentBookStatus;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -113,11 +116,54 @@ public class NFCActivity extends AppCompatActivity {
             Log.e("Unsupported Encoding:", e.toString());
         }
 
-        updateBooksDatabase(text);
+        // Check what kind of TAG this is
+        if (text == "Admin") {
+            updateUserDatabase();
+        } else {
+            updateBooksDatabase(text);
+        }
     }
 
+    private void updateUserDatabase () {
+        if(currentUser != null) {
+            // Check the current admin status of the user
+            db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    Boolean newAdminStatus = !task.getResult().getBoolean("Admin Status");
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("Admin Status", newAdminStatus);
+
+                    // Set the new admin status of the user
+                    db.collection("Users").document(currentUser.getUid()).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d("NFC Activity: ", "Update successful!");
+                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your admin status has been modified", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    }) .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("NFC Activity:", String.valueOf(e));
+                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    });
+
+                } else {
+                    snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: User does not exist in our records", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
+        }
+
+        Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
     private void updateBooksDatabase(String bookID) {
-        if(currentUser != null){
+        if(currentUser != null) {
 
             // Check the current availability status of the book
             db.collection("Books").document(bookID).get().addOnCompleteListener(task -> {
@@ -142,15 +188,20 @@ public class NFCActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d("NFC Activity: ", "Update successful!");
+                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your backpack has been update", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     }) .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.d("NFC Activity:", String.valueOf(e));
+                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     });
                 } else {
-                    Toast.makeText(this, "Error: Book does not exist in our records", Toast.LENGTH_LONG).show();
+                    snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Book does not exist in our records", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
         }
