@@ -1,6 +1,7 @@
 package com.example.libraryapp;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +41,8 @@ public class NavigationActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private Snackbar adminSnackbar;
+
+    NfcAdapter NFCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     public void adminButtonClicked(MenuItem item){
         final View menuItemView = findViewById(R.id.action_admin);
+        NFCAdapter = NfcAdapter.getDefaultAdapter(this);
 
         // Open special Activity for ADMINS
         if(currentUser != null){
@@ -113,7 +117,7 @@ public class NavigationActivity extends AppCompatActivity {
             // Check the current admin status of the user
             db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
-                    if (task.getResult().getBoolean("Admin Status")){
+                    if (task.getResult().getBoolean("Admin Status") && NFCAdapter != null){
                         Intent intent = new Intent(getApplicationContext(), HiddenAdminActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

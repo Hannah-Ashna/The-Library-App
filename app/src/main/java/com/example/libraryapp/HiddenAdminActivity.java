@@ -2,7 +2,6 @@ package com.example.libraryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +50,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfcactivity);
+        setContentView(R.layout.activity_hidden_admin);
 
         addBookAuthor       = (TextView) findViewById(R.id.addBookAuthor);
         addBookTitle        = (TextView) findViewById(R.id.addBookTitle);
