@@ -7,13 +7,13 @@
     tools:context=".HiddenAdminActivity">
 
     <EditText
-        android:id="@+id/updateNFCContent"
+        android:id="@+id/addBookISBN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="12"
+        android:hint="Book ISBN"
         android:inputType="textPersonName"
-        android:text="Book ISBN"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addBookSummary" />
@@ -26,19 +26,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateNFCContent"
-        app:layout_constraintVertical_bias="0.113" />
+        app:layout_constraintTop_toBottomOf="@+id/addBookISBN"
+        app:layout_constraintVertical_bias="0.059" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="218dp"
-        android:layout_height="205dp"
+        android:layout_width="191dp"
+        android:layout_height="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.144"
+        app:layout_constraintVertical_bias="0.124"
         app:srcCompat="@drawable/pixel_dino_logo" />
 
     <EditText
@@ -47,8 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:ems="12"
+        android:hint="Author Name"
         android:inputType="textPersonName"
-        android:text="Author Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -59,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="12"
+        android:hint="Book Summary"
         android:inputType="textPersonName"
-        android:text="Book Summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addBookTitle" />
@@ -71,8 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="12"
+        android:hint="Book Title"
         android:inputType="textPersonName"
-        android:text="Book Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addBookAuthor" />

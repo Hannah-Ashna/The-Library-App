@@ -1,5 +1,6 @@
 package com.example.libraryapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
@@ -20,8 +21,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HiddenAdminActivity extends AppCompatActivity {
 
@@ -35,7 +45,6 @@ public class HiddenAdminActivity extends AppCompatActivity {
 
     // NFC Messages
     public static final String Error_Detected = "No NFC Tag Detected";
-    public static final String Write_Success = "Text Written Successfully";
     public static final String Write_Error = "Error during Write - Try Again";
     public static final String No_NFC_Support = "Warning: This device does not support NFCs";
 
@@ -43,20 +52,28 @@ public class HiddenAdminActivity extends AppCompatActivity {
     TextView        addBookAuthor;
     TextView        addBookTitle;
     TextView        addBookSummary;
-    TextView        updateNFCContent;
+    TextView        addBookISBN;
     Button          updateNFCButton;
 
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private Snackbar adminSnackbar;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hidden_admin);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         addBookAuthor       = (TextView) findViewById(R.id.addBookAuthor);
         addBookTitle        = (TextView) findViewById(R.id.addBookTitle);
         addBookSummary      = (TextView) findViewById(R.id.addBookSummary);
 
-        updateNFCContent    = (TextView) findViewById(R.id.updateNFCContent);
+        addBookISBN         = (TextView) findViewById(R.id.addBookISBN);
         updateNFCButton     = (Button) findViewById(R.id.updateNFCButton);
         context             = this;
 
@@ -67,8 +84,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
                     if (NFCTag == null) {
                         Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
                     } else {
-                        write(updateNFCContent.getText().toString(), NFCTag);
-                        Toast.makeText(context, Write_Success, Toast.LENGTH_LONG).show();
+                        write(addBookISBN.getText().toString(), NFCTag);
                     }
                 } catch (IOException e) {
                     Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
@@ -133,6 +149,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
             Log.e("Unsupported Encoding:", e.toString());
         }
 
+        // Currently not displaying updated text -- but could use it
     }
 
     private void write (String text, Tag tag) throws IOException, FormatException {
@@ -143,6 +160,8 @@ public class HiddenAdminActivity extends AppCompatActivity {
         ndef.connect();
         ndef.writeNdefMessage(message);
         ndef.close();
+
+        updateBookDatabase();
     }
 
     private NdefRecord createRecord (String text) throws UnsupportedEncodingException {
@@ -161,6 +180,36 @@ public class HiddenAdminActivity extends AppCompatActivity {
         NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
 
         return recordNFC;
+    }
+
+    private void updateBookDatabase () {
+        // Create Hashmap for database input
+        Map<String, Object> newBook = new HashMap();
+        newBook.put("Author", addBookAuthor.getText().toString());
+        newBook.put("Title", addBookTitle.getText().toString());
+        newBook.put("Summary", addBookSummary.getText().toString());
+        newBook.put("Available", true);
+        newBook.put("Duration", 0);
+        newBook.put("User", "");
+
+        if (currentUser != null) {
+            db.collection("Books").document(addBookISBN.getText().toString()).set(newBook).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("NFC Admin Activity: ", "Update successful!");
+                    adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Success: NFC updated & Book added to database", Snackbar.LENGTH_LONG);
+                    adminSnackbar.show();
+
+                }
+            }) .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("NFC Admin Activity:", String.valueOf(e));
+                    adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
+                    adminSnackbar.show();
+                }
+            });
+        }
     }
 
     @Override
