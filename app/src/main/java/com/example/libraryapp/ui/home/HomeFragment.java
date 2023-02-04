@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
                 if (NFCAdapter != null) {
                     Intent intent = new Intent(getContext(), NFCActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
                     scanSnackBar = Snackbar.make(view, No_NFC_Support, Snackbar.LENGTH_LONG);

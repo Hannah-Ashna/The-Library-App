@@ -119,7 +119,7 @@ public class NavigationActivity extends AppCompatActivity {
                 if (task.isSuccessful() && task.getResult() != null) {
                     if (task.getResult().getBoolean("Admin Status") && NFCAdapter != null){
                         Intent intent = new Intent(getApplicationContext(), HiddenAdminActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
                     } else {
