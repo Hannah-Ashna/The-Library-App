@@ -1,14 +1,20 @@
 package com.example.libraryapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NavigationActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -28,9 +37,13 @@ public class NavigationActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
+    private Snackbar adminSnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
 
@@ -46,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity {
         TextView navbarUserName = (TextView) headerView.findViewById(R.id.navbarName);
         TextView navbarEmail = (TextView)headerView.findViewById(R.id.navbarEmail);
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
 
         // Display it via the Nav Header
         try {
@@ -93,10 +106,27 @@ public class NavigationActivity extends AppCompatActivity {
 
     public void adminButtonClicked(MenuItem item){
         final View menuItemView = findViewById(R.id.action_admin);
-        Snackbar adminSnackBar = Snackbar.make(menuItemView, "Scanning for Admin NFC Card", Snackbar.LENGTH_LONG);
-        adminSnackBar.show();
 
-        // Dismiss snackbar once connection succeeded or failed
-        // NFC Scanning Code goes hereeee!!
+        // Open special Activity for ADMINS
+        if(currentUser != null){
+
+            // Check the current admin status of the user
+            db.collection("Users").document(currentUser.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    if (task.getResult().getBoolean("Admin Status")){
+                        Intent intent = new Intent(getApplicationContext(), HiddenAdminActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        adminSnackbar = Snackbar.make(menuItemView, "I wonder what this button does?", Snackbar.LENGTH_LONG);
+                        adminSnackbar.show();
+                    }
+
+                } else {
+                    Toast.makeText(this, "Error: User does not exist in our records", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }
