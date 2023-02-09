@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/devsoc_500</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/devsoc</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -19,8 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.LibraryApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.LibraryApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="backgroundTint">@color/devsoc</item>
+    </style>
 
     <style name="Theme.LibraryApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.LibraryApp.NavView" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
