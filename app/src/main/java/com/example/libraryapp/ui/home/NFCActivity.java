@@ -184,7 +184,7 @@ public class NFCActivity extends AppCompatActivity {
                     Calendar cal = Calendar.getInstance();
 
                     if (currentBookStatus) {
-                        cal.add(Calendar.DAY_OF_MONTH, 10);
+                        cal.add(Calendar.DAY_OF_MONTH, 2);
                         Date newDate = cal.getTime();
 
                         bookData.put("Available" , false);

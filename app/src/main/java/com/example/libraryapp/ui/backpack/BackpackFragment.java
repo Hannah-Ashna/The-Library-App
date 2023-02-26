@@ -72,8 +72,8 @@ public class BackpackFragment extends Fragment {
                                 title.add(document.get("Title").toString());
                                 author.add(document.get("Author").toString());
 
-                                Timestamp testStamp = document.getTimestamp("Duration");
-                                duration.add(testStamp.toDate());
+                                Timestamp timeStamp = document.getTimestamp("Duration");
+                                duration.add(timeStamp.toDate());
                             }
                         } else {
                             Log.d("[Backpack Fragment]", "Error getting documents: ", task.getException());
