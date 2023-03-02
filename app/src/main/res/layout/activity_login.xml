@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/editTextTextLoginEmail"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/borders"
         android:paddingStart="10dp"
@@ -26,7 +26,7 @@
 
     <EditText
         android:id="@+id/editTextTextLoginPassword"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="1dp"
@@ -42,14 +42,26 @@
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:onClick="loginButtonClicked"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextLoginPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextTextLoginPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextLoginPassword" />
+
+    <Button
+        android:id="@+id/ForgotPassButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="4dp"
+        android:onClick="forgotButtonClicked"
+        android:text="Forgot Password"
+        app:layout_constraintEnd_toEndOf="@+id/LoginButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/LoginButton"
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
     <ImageView
         android:id="@+id/logoSignup"

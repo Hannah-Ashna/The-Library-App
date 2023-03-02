@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/editTextTextSignUpName"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/borders"
         android:paddingStart="10dp"
@@ -27,7 +27,7 @@
 
     <EditText
         android:id="@+id/editTextTextSignUpStudentID"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/borders"
@@ -43,7 +43,7 @@
 
     <EditText
         android:id="@+id/editTextTextSignupEmail"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/borders"
@@ -59,7 +59,7 @@
 
     <EditText
         android:id="@+id/editTextTextSignupPassword"
-        android:layout_width="210dp"
+        android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:ems="10"
@@ -75,8 +75,8 @@
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:onClick="signupButtonClicked"
         android:text="Sign up"

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.libraryapp.ForgotPassActivity;
 import com.example.libraryapp.MainActivity;
 import com.example.libraryapp.R;
 import com.example.libraryapp.SignUpActivity;
@@ -52,6 +53,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                     }
                 });
+            }
+        });
+
+        Button resetPassButton = (Button)root.findViewById(R.id.settingsResetButton);
+        resetPassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ForgotPassActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 

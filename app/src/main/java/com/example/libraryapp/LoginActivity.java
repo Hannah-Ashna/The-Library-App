@@ -72,4 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         String sPassword = password.getText().toString();
         login(sEmail, sPassword);
     }
+
+    public void forgotButtonClicked(View view){
+        // OPEN NEW ACTIVITY
+        Intent intent = new Intent(getApplicationContext(), ForgotPassActivity.class);
+        startActivity(intent);
+    }
 }
