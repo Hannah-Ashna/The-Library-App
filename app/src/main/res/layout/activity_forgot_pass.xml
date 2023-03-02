@@ -11,28 +11,30 @@
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/borders"
-        android:paddingStart="10dp"
-        android:drawablePadding="5dp"
         android:drawableStart="@drawable/ic_baseline_email_24"
+        android:drawablePadding="5dp"
         android:ems="10"
         android:hint="Enter Email"
         android:inputType="textEmailAddress"
+        android:paddingStart="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoForgot"
-        app:layout_constraintVertical_bias="0.029" />
+        app:layout_constraintVertical_bias="0.014" />
 
     <Button
         android:id="@+id/SubmitEmailButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:onClick="submitButtonClicked"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmailForgotPass"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/editTextEmailForgotPass"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailForgotPass" />
 

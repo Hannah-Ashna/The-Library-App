@@ -28,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.06" />
+        app:layout_constraintVertical_bias="0.021" />
 
     <Button
         android:id="@+id/settingsResetButton"
@@ -43,14 +43,14 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="302dp"
-        android:layout_height="290dp"
+        android:layout_width="285dp"
+        android:layout_height="280dp"
         android:src="@drawable/settings_dino"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.048" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
