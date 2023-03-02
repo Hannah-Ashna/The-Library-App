@@ -8,34 +8,23 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="288dp"
-        android:layout_height="271dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="334dp"
+        android:layout_height="342dp"
         android:adjustViewBounds="false"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/logo" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="348dp"
-        android:layout_height="43dp"
-        android:text="DEVSOC LIBRARY APP"
-        android:textAlignment="center"
-        android:textSize="30dp"
+        android:src="@drawable/brand_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081" />
+        app:layout_constraintVertical_bias="0.1"
+        app:srcCompat="@drawable/brand_logo" />
 
     <Button
         android:id="@+id/MainSignUpButton"
-        android:layout_width="170dp"
+        android:layout_width="270dp"
         android:layout_height="70dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:onClick="signupButton"
         android:text="SIGN UP"
         app:layout_constraintEnd_toEndOf="@+id/MainLoginButton"
@@ -45,9 +34,9 @@
 
     <Button
         android:id="@+id/MainLoginButton"
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="270dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="20dp"
         android:onClick="loginButton"
         android:text="LOGIN"
         app:layout_constraintEnd_toEndOf="@+id/imageView"

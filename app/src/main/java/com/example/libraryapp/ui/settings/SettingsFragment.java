@@ -38,8 +38,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSettings;
-        settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //final TextView textView = binding.textSettings;
+        //settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         Button signOutButton = (Button)root.findViewById(R.id.settingsSignOutButton);
         signOutButton.setOnClickListener(new View.OnClickListener() {
