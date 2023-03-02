@@ -7,13 +7,65 @@
     tools:context=".HiddenAdminActivity">
 
     <EditText
+        android:id="@+id/addBookAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:ems="12"
+        android:hint="Author Name"
+        android:inputType="textPersonName"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <EditText
+        android:id="@+id/addBookTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:ems="12"
+        android:hint="Book Title"
+        android:inputType="textPersonName"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_list_book"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addBookAuthor" />
+
+    <EditText
+        android:id="@+id/addBookSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:ems="12"
+        android:hint="Book Summary"
+        android:inputType="textPersonName"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_edit_note_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addBookTitle" />
+
+    <EditText
         android:id="@+id/addBookISBN"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:ems="12"
         android:hint="Book ISBN"
         android:inputType="textPersonName"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_badge_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addBookSummary" />
@@ -40,40 +92,6 @@
         app:layout_constraintVertical_bias="0.124"
         app:srcCompat="@drawable/pixel_dino_logo" />
 
-    <EditText
-        android:id="@+id/addBookAuthor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:ems="12"
-        android:hint="Author Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-    <EditText
-        android:id="@+id/addBookSummary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="12"
-        android:hint="Book Summary"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBookTitle" />
-
-    <EditText
-        android:id="@+id/addBookTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="12"
-        android:hint="Book Title"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBookAuthor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

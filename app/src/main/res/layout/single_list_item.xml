@@ -23,7 +23,7 @@
         android:maxLines="10"
         android:text="Android Name"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/aSummaryTxt"
@@ -33,6 +33,7 @@
         android:layout_alignStart="@+id/aTitleTxt"
         android:layout_alignLeft="@+id/aTitleTxt"
         android:maxLines="20"
+        android:textColor="@color/gray_200"
         android:text="Android Version"
         android:textSize="12sp" />
 </RelativeLayout>

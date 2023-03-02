@@ -8,10 +8,16 @@
 
     <EditText
         android:id="@+id/editTextTextSignUpName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_person_24"
         android:ems="10"
+        android:hint="Enter Full Name"
         android:inputType="textEmailAddress"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -19,73 +25,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.176" />
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="89dp"
-        android:layout_height="19dp"
-        android:text="FULL NAME"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextSignUpName"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextSignUpName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextSignUpName" />
-
     <EditText
         android:id="@+id/editTextTextSignUpStudentID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_badge_24"
         android:ems="10"
+        android:hint="Enter N/T Number"
+        android:textColor="@color/black"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextSignUpName"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextSignUpName" />
 
-    <TextView
-        android:id="@+id/textViewStudentID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="N/T NUMBER"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextSignUpStudentID"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextSignUpStudentID"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextSignUpStudentID" />
-
-    <TextView
-        android:id="@+id/textViewPassword"
-        android:layout_width="96dp"
-        android:layout_height="19dp"
-        android:text="PASSWORD"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextSignupPassword"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextSignupPassword"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextSignupPassword" />
-
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="48dp"
-        android:layout_height="21dp"
-        android:text="EMAIL"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextSignupEmail"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextSignupEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextSignupEmail" />
-
     <EditText
         android:id="@+id/editTextTextSignupEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/borders"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_email_24"
         android:ems="10"
+        android:hint="Enter Email"
+        android:textColor="@color/black"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextSignUpStudentID"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextSignUpStudentID" />
 
     <EditText
         android:id="@+id/editTextTextSignupPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
+        android:hint="Enter Password"
         android:inputType="textPassword"
+        android:background="@drawable/borders"
+        android:textColor="@color/black"
+        android:paddingStart="10dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextSignupEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextSignupEmail" />
 
@@ -93,24 +77,12 @@
         android:id="@+id/LoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="28dp"
         android:onClick="signupButtonClicked"
         android:text="Sign up"
         app:layout_constraintEnd_toEndOf="@+id/editTextTextSignupPassword"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="@+id/editTextTextSignupPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextSignupPassword" />
-
-    <ImageView
-        android:id="@+id/logoSignup"
-        android:layout_width="81dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
