@@ -283,7 +283,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
             String newOutput = scannerOutput.substring(0,3) + "-" + scannerOutput.substring(3, scannerOutput.length());
 
             // Use Google Books API to get data
-            searchBooks(newOutput);
+            searchBooks(scannerOutput);
 
             // Use Alert Dialogue
             builder.setTitle("Scanned BarCode");

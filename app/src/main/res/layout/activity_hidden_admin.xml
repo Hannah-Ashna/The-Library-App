@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".HiddenAdminActivity">
 
+    <ImageButton
+        android:id="@+id/barcodeScannerButton"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/scanner_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025" />
+
     <EditText
         android:id="@+id/addBookAuthor"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/borders"
         android:drawableStart="@drawable/ic_baseline_person_24"
         android:drawablePadding="5dp"
@@ -22,6 +34,7 @@
         android:textColor="@color/black"
         android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="@+id/barcodeScannerButton"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="@+id/barcodeScannerButton"
         app:layout_constraintTop_toBottomOf="@+id/barcodeScannerButton" />
 
@@ -82,27 +95,35 @@
         app:layout_constraintStart_toStartOf="@+id/addBookSummary"
         app:layout_constraintTop_toBottomOf="@+id/addBookSummary" />
 
-    <Button
-        android:id="@+id/updateNFCButton"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:text="Update"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="@+id/addBookISBN"
         app:layout_constraintStart_toStartOf="@+id/addBookISBN"
-        app:layout_constraintTop_toBottomOf="@+id/addBookISBN" />
+        app:layout_constraintTop_toBottomOf="@+id/addBookISBN">
 
-    <ImageButton
-        android:id="@+id/barcodeScannerButton"
-        android:layout_width="285dp"
-        android:layout_height="215dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.053"
-        app:srcCompat="@drawable/brand_logo_alt" />
+        <Button
+            android:id="@+id/deleteBookButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintEnd_toEndOf="@+id/addBookISBN"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="@+id/addBookISBN"
+            app:layout_constraintTop_toBottomOf="@+id/addBookISBN" />
+
+        <Button
+            android:id="@+id/updateNFCButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintEnd_toEndOf="@+id/addBookISBN"
+            app:layout_constraintStart_toStartOf="@+id/addBookISBN"
+            app:layout_constraintTop_toBottomOf="@+id/addBookISBN" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
