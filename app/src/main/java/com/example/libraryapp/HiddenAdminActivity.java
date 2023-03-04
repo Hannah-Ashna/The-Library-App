@@ -281,11 +281,20 @@ public class HiddenAdminActivity extends AppCompatActivity {
             // Setup ISBN to follow database's structure
             String scannerOutput = result.getContents();
             String newOutput = scannerOutput.substring(0,3) + "-" + scannerOutput.substring(3, scannerOutput.length());
-            builder.setTitle("Scanned BarCode:");
-            builder.setMessage(newOutput);
+
+            // Use Google Books API to get data
+            searchBooks(newOutput);
+
+            // Use Alert Dialogue
+            builder.setTitle("Scanned BarCode");
+            builder.setMessage("ISBN: " + newOutput);
             builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    addBookTitle.setText("");
+                    addBookAuthor.setText("");
+                    addBookSummary.setText("");
+                    addBookISBN.setText("");
                     dialogInterface.dismiss();
                 }
             });
@@ -298,4 +307,9 @@ public class HiddenAdminActivity extends AppCompatActivity {
             }).show();
         }
     });
+
+    public void searchBooks (String newISBN) {
+        String queryString = newISBN;
+        new FetchBookData(addBookISBN, addBookAuthor, addBookTitle, addBookSummary).execute(queryString);
+    }
 }
