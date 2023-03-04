@@ -17,27 +17,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.libraryapp.HiddenAdminActivity;
 import com.example.libraryapp.NavigationActivity;
 import com.example.libraryapp.R;
-import com.example.libraryapp.ui.library.LibraryListAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.text.SimpleDateFormat;
+
 
 public class NFCActivity extends AppCompatActivity {
 
@@ -54,7 +47,6 @@ public class NFCActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private Snackbar snackbar;
     boolean currentBookStatus;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -147,21 +139,18 @@ public class NFCActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d("NFC Activity: ", "Update successful!");
-                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your admin status has been modified", Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                            Toast.makeText(NFCActivity.this, "Success: Your admin status has been modified", Toast.LENGTH_LONG).show();
                         }
                     }) .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.d("NFC Activity:", String.valueOf(e));
-                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                            Toast.makeText(NFCActivity.this, "Error: Something went wrong, try again", Toast.LENGTH_LONG).show();
                         }
                     });
 
                 } else {
-                    snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: User does not exist in our records", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Toast.makeText(NFCActivity.this, "Error: User does not exist in our records", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -175,51 +164,52 @@ public class NFCActivity extends AppCompatActivity {
     private void updateBooksDatabase(String bookID) {
         if(currentUser != null) {
 
-            // Check the current availability status of the book
-            db.collection("Books").document(bookID).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    currentBookStatus = task.getResult().getBoolean("Available");
+            try {
+                // Check the current availability status of the book
+                db.collection("Books").document(bookID).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        currentBookStatus = task.getResult().getBoolean("Available");
 
-                    Map<String, Object> bookData = new HashMap<>();
-                    Calendar cal = Calendar.getInstance();
+                        Map<String, Object> bookData = new HashMap<>();
+                        Calendar cal = Calendar.getInstance();
 
-                    if (currentBookStatus) {
-                        cal.add(Calendar.DAY_OF_MONTH, 2);
-                        Date newDate = cal.getTime();
+                        if (currentBookStatus) {
+                            cal.add(Calendar.DAY_OF_MONTH, 2);
+                            Date newDate = cal.getTime();
 
-                        bookData.put("Available" , false);
-                        bookData.put("User", currentUser.getUid());
-                        bookData.put("Duration", new Timestamp(newDate));
+                            bookData.put("Available" , false);
+                            bookData.put("User", currentUser.getUid());
+                            bookData.put("Duration", new Timestamp(newDate));
+                        } else {
+                            Date newDate = cal.getTime();
+
+                            bookData.put("Available" , true);
+                            bookData.put("User", "");
+                            bookData.put("Duration", new Timestamp(newDate));
+                        }
+
+
+                        // Set the new availability status of the book
+                        db.collection("Books").document(bookID).update(bookData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d("NFC Activity: ", "Update successful!");
+                                Toast.makeText(NFCActivity.this, "Success: Your backpack has been updated", Toast.LENGTH_LONG).show();
+                            }
+                        }) .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("NFC Activity:", String.valueOf(e));
+                                Toast.makeText(NFCActivity.this, "Error: Something went wrong, try again", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     } else {
-                        Date newDate = cal.getTime();
-
-                        bookData.put("Available" , true);
-                        bookData.put("User", "");
-                        bookData.put("Duration", new Timestamp(newDate));
+                        Toast.makeText(NFCActivity.this, "Error: Book does not exist in our records", Toast.LENGTH_LONG).show();
                     }
-
-
-                    // Set the new availability status of the book
-                    db.collection("Books").document(bookID).update(bookData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d("NFC Activity: ", "Update successful!");
-                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Your backpack has been updated", Snackbar.LENGTH_LONG);
-                            snackbar.show();
-                        }
-                    }) .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("NFC Activity:", String.valueOf(e));
-                            snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
-                            snackbar.show();
-                        }
-                    });
-                } else {
-                    snackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Book does not exist in our records", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            });
+                });
+            } catch (Exception e) {
+                Toast.makeText(NFCActivity.this, "Error: Book does not exist in our records", Toast.LENGTH_LONG).show();
+            }
         }
 
         Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);

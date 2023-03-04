@@ -43,26 +43,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(LoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+        try {
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Toast.makeText(LoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
 
-                    //user has been signed in, use an intent to move to the next activity
-                    Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("MainActivity", "signInWithEmail:failure", task.getException());
-                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        //user has been signed in, use an intent to move to the next activity
+                        Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("MainActivity", "signInWithEmail:failure", task.getException());
+                        Toast.makeText(LoginActivity.this, "Authentication Failed - Try again.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+            Toast.makeText(LoginActivity.this, "Authentication Error - Try again", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void loginButtonClicked(View view){
@@ -70,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.editTextTextLoginPassword);
         String sEmail = email.getText().toString();
         String sPassword = password.getText().toString();
+
         login(sEmail, sPassword);
     }
 
