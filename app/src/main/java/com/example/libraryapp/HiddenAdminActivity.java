@@ -1,10 +1,13 @@
 package com.example.libraryapp;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.FormatException;
@@ -18,6 +21,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,9 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.journeyapps.barcodescanner.CaptureActivity;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -56,6 +63,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
     TextView        addBookSummary;
     TextView        addBookISBN;
     Button          updateNFCButton;
+    ImageButton     scannerButton;
 
     // Firebase
     private FirebaseAuth mAuth;
@@ -77,6 +85,8 @@ public class HiddenAdminActivity extends AppCompatActivity {
 
         addBookISBN         = (TextView) findViewById(R.id.addBookISBN);
         updateNFCButton     = (Button) findViewById(R.id.updateNFCButton);
+
+        scannerButton       = (ImageButton) findViewById(R.id.barcodeScannerButton);
         context             = this;
 
         updateNFCButton.setOnClickListener(new View.OnClickListener(){
@@ -95,6 +105,13 @@ public class HiddenAdminActivity extends AppCompatActivity {
                     Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
+            }
+        });
+
+        scannerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scanCode();
             }
         });
 
@@ -246,4 +263,39 @@ public class HiddenAdminActivity extends AppCompatActivity {
         writeMode = false;
         NFCAdapter.disableForegroundDispatch(this);
     }
+
+    private void scanCode(){
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Scan Book Barcode");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(CapAct.class);
+        barcodeLauncher.launch(options);
+    }
+
+    ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(), result ->
+    {
+        if (result.getContents() != null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(HiddenAdminActivity.this);
+
+            // Setup ISBN to follow database's structure
+            String scannerOutput = result.getContents();
+            String newOutput = scannerOutput.substring(0,3) + "-" + scannerOutput.substring(3, scannerOutput.length());
+            builder.setTitle("Scanned BarCode:");
+            builder.setMessage(newOutput);
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    addBookISBN.setText(newOutput);
+                }
+            }).show();
+        }
+    });
 }

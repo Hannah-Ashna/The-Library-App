@@ -10,32 +10,36 @@
         android:id="@+id/addBookAuthor"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/borders"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawablePadding="5dp"
         android:ems="12"
         android:hint="Author Name"
         android:inputType="textPersonName"
-        android:background="@drawable/borders"
         android:paddingStart="10dp"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_baseline_person_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/barcodeScannerButton"
+        app:layout_constraintStart_toStartOf="@+id/barcodeScannerButton"
+        app:layout_constraintTop_toBottomOf="@+id/barcodeScannerButton" />
 
     <EditText
         android:id="@+id/addBookTitle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/borders"
+        android:drawableStart="@drawable/ic_list_book"
+        android:drawablePadding="5dp"
         android:ems="12"
         android:hint="Book Title"
         android:inputType="textPersonName"
-        android:background="@drawable/borders"
         android:paddingStart="10dp"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_list_book"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/addBookAuthor"
+        app:layout_constraintStart_toStartOf="@+id/addBookAuthor"
         app:layout_constraintTop_toBottomOf="@+id/addBookAuthor" />
 
     <EditText
@@ -43,15 +47,17 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/borders"
+        android:drawableStart="@drawable/ic_baseline_edit_note_24"
+        android:drawablePadding="5dp"
         android:ems="12"
         android:hint="Book Summary"
         android:inputType="textPersonName"
-        android:background="@drawable/borders"
         android:paddingStart="10dp"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_baseline_edit_note_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/addBookTitle"
+        app:layout_constraintStart_toStartOf="@+id/addBookTitle"
         app:layout_constraintTop_toBottomOf="@+id/addBookTitle" />
 
     <EditText
@@ -59,39 +65,40 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/borders"
+        android:drawableStart="@drawable/ic_baseline_badge_24"
+        android:drawablePadding="5dp"
         android:ems="12"
         android:hint="Book ISBN"
         android:inputType="textPersonName"
-        android:background="@drawable/borders"
         android:paddingStart="10dp"
-        android:drawablePadding="5dp"
-        android:drawableStart="@drawable/ic_baseline_badge_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/addBookSummary"
+        app:layout_constraintStart_toStartOf="@+id/addBookSummary"
         app:layout_constraintTop_toBottomOf="@+id/addBookSummary" />
 
     <Button
         android:id="@+id/updateNFCButton"
         android:layout_width="180dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
         android:text="Update"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addBookISBN"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintEnd_toEndOf="@+id/addBookISBN"
+        app:layout_constraintStart_toStartOf="@+id/addBookISBN"
+        app:layout_constraintTop_toBottomOf="@+id/addBookISBN" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="191dp"
-        android:layout_height="160dp"
+    <ImageButton
+        android:id="@+id/barcodeScannerButton"
+        android:layout_width="285dp"
+        android:layout_height="215dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.124"
-        app:srcCompat="@drawable/pixel_dino_logo" />
-
+        app:layout_constraintVertical_bias="0.053"
+        app:srcCompat="@drawable/brand_logo_alt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
