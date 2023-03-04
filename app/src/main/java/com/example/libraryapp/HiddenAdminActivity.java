@@ -63,6 +63,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
     TextView        addBookSummary;
     TextView        addBookISBN;
     Button          updateNFCButton;
+    Button          deleteBookButton;
     ImageButton     scannerButton;
 
     // Firebase
@@ -85,6 +86,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
 
         addBookISBN         = (TextView) findViewById(R.id.addBookISBN);
         updateNFCButton     = (Button) findViewById(R.id.updateNFCButton);
+        deleteBookButton    = (Button) findViewById(R.id.deleteBookButton);
 
         scannerButton       = (ImageButton) findViewById(R.id.barcodeScannerButton);
         context             = this;
@@ -112,6 +114,52 @@ public class HiddenAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 scanCode();
+            }
+        });
+
+        deleteBookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Test", addBookISBN.getText().toString());
+
+                if (currentUser != null) {
+                    db.collection("Books").document(addBookISBN.getText().toString()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            // Clear Text Views
+                            addBookTitle.setText("");
+                            addBookAuthor.setText("");
+                            addBookSummary.setText("");
+                            addBookISBN.setText("");
+
+                            // Write blank to NFC Tag
+                            try {
+                                if (NFCTag == null) {
+                                    Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
+                                } else {
+                                    write("", NFCTag);
+                                }
+                            } catch (IOException e) {
+                                Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            } catch (FormatException e) {
+                                Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+
+                            Log.d("NFC Admin Activity: ", "Update successful!");
+                            adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Book Deleted from Database", Snackbar.LENGTH_LONG);
+                            adminSnackbar.show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("NFC Admin Activity:", String.valueOf(e));
+                            adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
+                            adminSnackbar.show();
+                        }
+                    });
+                }
             }
         });
 
