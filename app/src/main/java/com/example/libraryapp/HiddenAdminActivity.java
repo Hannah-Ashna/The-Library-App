@@ -120,45 +120,47 @@ public class HiddenAdminActivity extends AppCompatActivity {
         deleteBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Delete ISBN", addBookISBN.getText().toString());
-
                 if (currentUser != null) {
-                    db.collection("Books").document(addBookISBN.getText().toString()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            // Clear Text Views
-                            addBookTitle.setText("");
-                            addBookAuthor.setText("");
-                            addBookSummary.setText("");
-                            addBookISBN.setText("");
+                    try {
+                        db.collection("Books").document(addBookISBN.getText().toString()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                // Clear Text Views
+                                addBookTitle.setText("");
+                                addBookAuthor.setText("");
+                                addBookSummary.setText("");
+                                addBookISBN.setText("");
 
-                            // Write blank to NFC Tag
-                            try {
-                                if (NFCTag == null) {
-                                    Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
-                                } else {
-                                    write("", NFCTag);
+                                // Write blank to NFC Tag
+                                try {
+                                    if (NFCTag == null) {
+                                        Toast.makeText(context, Error_Detected, Toast.LENGTH_LONG).show();
+                                    } else {
+                                        reWrite("", NFCTag);
+                                    }
+                                } catch (IOException e) {
+                                    Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                } catch (FormatException e) {
+                                    Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
                                 }
-                            } catch (IOException e) {
-                                Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            } catch (FormatException e) {
-                                Toast.makeText(context, Write_Error, Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
 
-                            Log.d("NFC Admin Activity: ", "Update successful!");
-                            adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Success: Book Deleted from Database", Snackbar.LENGTH_LONG);
-                            adminSnackbar.show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("NFC Admin Activity:", String.valueOf(e));
-                            adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
-                            adminSnackbar.show();
-                        }
-                    });
+                                Log.d("NFC Admin Activity: ", "Update successful!");
+                                adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Success: NFC Updated & Book deleted from Database", Snackbar.LENGTH_LONG);
+                                adminSnackbar.show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("NFC Admin Activity:", String.valueOf(e));
+                                adminSnackbar = Snackbar.make(findViewById(android.R.id.content), "Error: Something went wrong, try again", Snackbar.LENGTH_LONG);
+                                adminSnackbar.show();
+                            }
+                        });
+                    } catch (Exception e){
+                        Log.e("Error", e.toString());
+                    }
                 }
             }
         });
@@ -229,6 +231,16 @@ public class HiddenAdminActivity extends AppCompatActivity {
         ndef.close();
 
         updateBookDatabase();
+    }
+
+    private void reWrite (String text, Tag tag) throws IOException, FormatException {
+        NdefRecord[] records = { createRecord(text)};
+        NdefMessage message = new NdefMessage(records);
+
+        Ndef ndef = Ndef.get(tag);
+        ndef.connect();
+        ndef.writeNdefMessage(message);
+        ndef.close();
     }
 
     private NdefRecord createRecord (String text) throws UnsupportedEncodingException {

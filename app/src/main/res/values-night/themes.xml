@@ -15,7 +15,12 @@
         <!-- Customize your theme here. -->
         <item name="android:colorBackground">@color/gray</item>
         <item name="android:textColor">@color/white</item>
+        <item name="colorAccent">@color/gray_200</item>
 
+    </style>
+
+    <style name="Theme.LibraryApp.ProgressBar">
+        <item name="progressBarStyle">@color/white</item>
     </style>
 
     <style name="Theme.LibraryApp.AppBarOverlay">
@@ -24,6 +29,10 @@
 
     <style name="Theme.LibraryApp.NavView">
         <item name="colorPrimary">@color/mint</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/gray_200</item>
     </style>
 
 </resources>

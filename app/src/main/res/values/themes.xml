@@ -19,6 +19,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.LibraryApp.ProgressBar">
+        <item name="progressBarStyle">@color/devsoc_400</item>
+    </style>
+
     <style name="Theme.LibraryApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="backgroundTint">@color/devsoc</item>
     </style>
