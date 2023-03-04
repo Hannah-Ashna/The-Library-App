@@ -120,7 +120,7 @@ public class HiddenAdminActivity extends AppCompatActivity {
         deleteBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Test", addBookISBN.getText().toString());
+                Log.d("Delete ISBN", addBookISBN.getText().toString());
 
                 if (currentUser != null) {
                     db.collection("Books").document(addBookISBN.getText().toString()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
